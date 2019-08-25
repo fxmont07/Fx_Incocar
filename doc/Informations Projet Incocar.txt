@@ -1,0 +1,12 @@
+Auteurs : 
+
+Dieudonné Cédric 		etu38389@henallux.be
+Montoya-Molina François-Xavier	etu37067@henallux.be
+
+
+Base de données : 
+
+Nom du schéma : incocar  
+mdp : 		mdpSQL007/*-
+
+Lien git : https://github.com/fxmont07/Cedric_Fx_Incocar
