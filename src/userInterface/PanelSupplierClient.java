@@ -66,7 +66,6 @@ public class PanelSupplierClient extends JPanel {
                 isSupplier.setSelected(true);
                 isClient.setSelected(false);
                 suppliers.setSelectedItem(vehicle.getSupplier().getName());
-
             } else {
                 isSupplier.setSelected(false);
                 isClient.setSelected(true);

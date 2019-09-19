@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 
 public class VehicleTable extends AbstractTableModel {
     private String [] columnNames = {"Date", "Marque & Modèle", "Source", "Chassis", "Couleur",
-            "1ère Immat", "Prix d'achat", "Prix de vente", "Benefice", "Date vente", "Km", "Kw",
+            "1ère Immat", "Prix d'achat", "Prix de vente", "Benefice", "Date vente", "N° Fact", "Km", "Kw",
             "Documents"};
     private ArrayList<Vehicle> vehicles;
 
@@ -55,18 +55,20 @@ public class VehicleTable extends AbstractTableModel {
             case 5:
                 return vehicle.getFirstRegistrationInString();
             case 6:
-                return vehicle.getBuyPrice();
+                return vehicle.getBuyPrice() == 0 ? null : vehicle.getBuyPrice();
             case 7:
-                return vehicle.getLastBill() == null ? 0 : vehicle.getLastBill().getBillPrice();
+                return vehicle.getLastBill() == null ? null : vehicle.getLastBill().getBillPrice();
             case 8:
-                return vehicle.getLastBill() == null ? 0 : vehicle.getLastBill().getBillPrice() - vehicle.getBuyPrice();
+                return vehicle.getLastBill() == null ? null : vehicle.getLastBill().getBillPrice() - vehicle.getBuyPrice();
             case 9:
-                return vehicle.getLastBill() == null ? " / " : vehicle.getLastBill().getBillDateInString();
+                return vehicle.getLastBill() == null ? null : vehicle.getLastBill().getBillDateInString();
             case 10:
-                return vehicle.getMileage();
+                return vehicle.getLastBill() == null ? null : vehicle.getLastBill().getId();
             case 11 :
-                return vehicle.getEnginePower();
+                return vehicle.getMileage();
             case 12 :
+                return vehicle.getEnginePower();
+            case 13 :
                 return vehicle.getHasConformityCertificate() && vehicle.getHasImmatCertificate() && vehicle.getHasTechnicalControl() ? "OK" : " / ";
             default: return null;
         }
@@ -93,9 +95,10 @@ public class VehicleTable extends AbstractTableModel {
             case 9 : c = String.class;
                 break;
             case 10:
-            case 11 : c = Integer.class;
+            case 11:
+            case 12 : c = Integer.class;
                 break;
-            case 12 : c = String.class;
+            case 13 : c = String.class;
                 break;
             default : c = Boolean.class;
         }

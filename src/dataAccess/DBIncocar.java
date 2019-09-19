@@ -21,11 +21,11 @@ public class DBIncocar implements DAO {
         try {
             ArrayList<String> list = new ArrayList<>();
             Connection connection = SingletonConnection.getInstance();
-            PreparedStatement statement = connection.prepareStatement("select name from locality order by name asc");
+            PreparedStatement statement = connection.prepareStatement("select name, zip_code from locality order by name asc");
             ResultSet data = statement.executeQuery();
 
             while (data.next()) {
-                list.add(data.getString("name"));
+                list.add(data.getString("name") + " " + data.getString("zip_code"));
             }
             return list.toArray(new String[list.size()]);
         } catch (DbConnectionException exception){
@@ -843,6 +843,7 @@ public class DBIncocar implements DAO {
     public ArrayList<Bill> getAllBillsFromVehicle(String vehicleChassis) throws DataAccessException {
         ArrayList<Bill> bills = new ArrayList<>();
         try {
+            Integer id;
             GregorianCalendar billDate;
             Client client;
             Date date;
@@ -853,6 +854,7 @@ public class DBIncocar implements DAO {
             data = statement.executeQuery();
 
             while (data.next()) {
+                id = data.getInt("bill_id");
                 date = data.getDate("bill_date");
                 if(date == null) {
                     billDate = null;
@@ -861,7 +863,7 @@ public class DBIncocar implements DAO {
                     billDate.setTime(new Date(date.getTime()));
                 }
                 client = getClient(data.getInt("client"));
-                bills.add(new Bill(data.getBoolean("is_sale"), data.getDouble("price"), billDate, null, client));
+                bills.add(new Bill(data.getBoolean("is_sale"), data.getDouble("price"), billDate, null, client, id));
             }
 
         } catch (Exception e) {
@@ -1219,6 +1221,21 @@ public class DBIncocar implements DAO {
         }
     }
 
+    public void addLocality(Locality locality) throws DataAccessException {
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            PreparedStatement statement = connection.prepareStatement("" +
+                    "insert into locality(name, zip_code, country) " +
+                    "values (?, ?, ?)");
+            statement.setString(1, locality.getName());
+            statement.setString(2, locality.getZipCode());
+            statement.setString(3, locality.getCountry());
+            statement.execute();
+        } catch (Exception e) {
+            throw new DataAccessException("Insertion dans le stockage");
+        }
+    }
+
     // Updates
     public void updateSupplier(Supplier supplier) throws DataAccessException {
         try {
@@ -1392,6 +1409,24 @@ public class DBIncocar implements DAO {
         }
     }
 
+    public void deleteLocality(String name, String code) throws DataAccessException {
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            String sql;
+            PreparedStatement statement;
+
+            // Supression du véhicule
+            // Facture et payement => on cascade
+            sql = "delete from locality where name = ? and zip_code = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, code);
+            statement.execute();
+
+        } catch (Exception e) {
+            throw new DataAccessException("Supprimer Véhicule");
+        }
+    }
 
 
     public void deleteClient(Client client) {

@@ -29,6 +29,9 @@ public class WindowMain extends JFrame {
     private JMenu menuBill;
     private JMenuItem itemListingBills;
 
+    private JMenu menuLocality;
+    private JMenuItem itemManagementLocality;
+
     private JMenu menuResearch;
     private JMenuItem itemVehiclesBought2Dates;
     private JMenuItem itemSalesByLocality;
@@ -84,6 +87,7 @@ public class WindowMain extends JFrame {
         menuSupplier = new JMenu("Fournisseur");
         menuModel = new JMenu("Modèle");
         menuBill = new JMenu("Facture");
+        menuLocality = new JMenu("Localité");
         menuResearch = new JMenu("Recherche");
         menuTool = new JMenu("Outils");
 
@@ -101,14 +105,18 @@ public class WindowMain extends JFrame {
         itemListingSuppliers.addActionListener(itemMenuListener);
 
         // Options Model Menu
-        itemManagementModel = new JMenuItem("Gestion Modèle");
+        itemManagementModel = new JMenuItem("Gestion Modèles");
         itemManagementModel.addActionListener(itemMenuListener);
 
         // Options Bill Menu
         itemListingBills = new JMenuItem("Listing Facture");
         itemListingBills.addActionListener(itemMenuListener);
 
-        // Options recherche
+        // Options Vehicle Menu
+        itemManagementLocality = new JMenuItem("Gestion Localités");
+        itemManagementLocality.addActionListener(itemMenuListener);
+
+        // Options Recherche
         itemVehiclesBought2Dates = new JMenuItem("Véhicules achetés entre 2 dates");
         itemVehiclesBought2Dates.addActionListener(itemMenuListener);
         itemSalesByLocality = new JMenuItem("Véhicules par localité");
@@ -132,6 +140,7 @@ public class WindowMain extends JFrame {
         menuBar.add(menuVehicle);
         menuBar.add(menuSupplier);
         menuBar.add(menuModel);
+        menuBar.add(menuLocality);
         menuBar.add(menuBill);
         menuBar.add(menuResearch);
         menuBar.add(menuTool);
@@ -146,6 +155,9 @@ public class WindowMain extends JFrame {
 
         // Ajout dans le menu Model
         menuModel.add(itemManagementModel);
+
+        // Ajout dans le menu Localité
+        menuLocality.add(itemManagementLocality);
 
         // Ajout dans le menu Facture
         menuBill.add(itemListingBills);
@@ -174,7 +186,6 @@ public class WindowMain extends JFrame {
 
         panelVehicle = new PanelVehicle(controller, mainRef, null);
         container.add(panelVehicle);
-
 
         threadChange = new ThreadMove(this);
         threadChange.start();
@@ -218,54 +229,58 @@ public class WindowMain extends JFrame {
                                     container.add(new PanelBill(controller, mainRef, null));
                                     container.validate();
                                 } else {
-                                    if(event.getSource() == itemVehiclesBought2Dates) {
-                                        new WindowResearchBetweenDates(mainRef, itemVehiclesBought2Dates.getText());
+                                    if(event.getSource() == itemManagementLocality) {
+                                        new FormLocality(controller);
                                     } else {
-                                        if (event.getSource() == itemSalesByLocality) {
-                                            new WindowVehiclesByLocality(controller, mainRef);
+                                        if(event.getSource() == itemVehiclesBought2Dates) {
+                                            new WindowResearchBetweenDates(mainRef, itemVehiclesBought2Dates.getText());
                                         } else {
-                                            if(event.getSource() == itemBillsBetween2Dates) {
-                                                new WindowResearchBetweenDates(mainRef, itemBillsBetween2Dates.getText());
+                                            if (event.getSource() == itemSalesByLocality) {
+                                                new WindowVehiclesByLocality(controller, mainRef);
                                             } else {
-                                                if(event.getSource() == itemTotalCostBuyedCar) {
-                                                    try {
-                                                        JOptionPane.showMessageDialog(null, controller.totalCostOfBuyedCar(panelVehicle.getAllVehicles()) + " €");
-                                                    } catch (Exception e) {
-                                                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-                                                    }
-
+                                                if(event.getSource() == itemBillsBetween2Dates) {
+                                                    new WindowResearchBetweenDates(mainRef, itemBillsBetween2Dates.getText());
                                                 } else {
-                                                    if(event.getSource() == itemTotalGainOfSoldCar) {
+                                                    if(event.getSource() == itemTotalCostBuyedCar) {
                                                         try {
-                                                            JOptionPane.showMessageDialog(null, controller.totalGainOfSoldCar(panelVehicle.getAllVehicles()) + " €");
+                                                            JOptionPane.showMessageDialog(null, controller.totalCostOfBuyedCar(panelVehicle.getAllVehicles()) + " €");
                                                         } catch (Exception e) {
                                                             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                                                         }
+
                                                     } else {
-                                                        if(event.getSource() == itemTotalProfit) {
+                                                        if (event.getSource() == itemTotalGainOfSoldCar) {
                                                             try {
-                                                                JOptionPane.showMessageDialog(null, controller.totalProfit(panelVehicle.getAllVehicles()) + " € (tva déduite)");
+                                                                JOptionPane.showMessageDialog(null, controller.totalGainOfSoldCar(panelVehicle.getAllVehicles()) + " €");
                                                             } catch (Exception e) {
                                                                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                                                             }
                                                         } else {
-                                                            if(event.getSource() == itemNbVehicleInSale) {
+                                                            if (event.getSource() == itemTotalProfit) {
                                                                 try {
-                                                                    JOptionPane.showMessageDialog(null, controller.numberOfVehicleInSale(panelVehicle.getAllVehicles()) + " véhicule(s) en vente"); // Ne se met pas à jour //TODO
+                                                                    JOptionPane.showMessageDialog(null, controller.totalProfit(panelVehicle.getAllVehicles()) + " € (tva déduite)");
                                                                 } catch (Exception e) {
                                                                     JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                                                                 }
                                                             } else {
-                                                                if(event.getSource() == itemEnginePowerToHorsePower) {
-                                                                    if(panelVehicle.getListSelect().getMinSelectionIndex() == -1) {
-                                                                        JOptionPane.showMessageDialog(null,"Veuillez choisir un véhicule.");
-                                                                    } else {
-                                                                        Vehicle vehicle = panelVehicle.getVehiculeSelected();
-                                                                        double horsePower = controller.enginePowerToHorsePower(vehicle);
-                                                                        if(horsePower == 0) {
-                                                                            JOptionPane.showMessageDialog(null, "Le véhicule sélectionné n'a pas de puissance enregistrée");
+                                                                if (event.getSource() == itemNbVehicleInSale) {
+                                                                    try {
+                                                                        JOptionPane.showMessageDialog(null, controller.numberOfVehicleInSale(panelVehicle.getAllVehicles()) + " véhicule(s) en vente"); // Ne se met pas à jour //TODO
+                                                                    } catch (Exception e) {
+                                                                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                                                                    }
+                                                                } else {
+                                                                    if (event.getSource() == itemEnginePowerToHorsePower) {
+                                                                        if (panelVehicle.getListSelect().getMinSelectionIndex() == -1) {
+                                                                            JOptionPane.showMessageDialog(null, "Veuillez choisir un véhicule.");
                                                                         } else {
-                                                                            JOptionPane.showMessageDialog(null, Math.round(horsePower*100.0)/100.0 + " cv", "Convertisseur KW", JOptionPane.INFORMATION_MESSAGE);
+                                                                            Vehicle vehicle = panelVehicle.getVehiculeSelected();
+                                                                            double horsePower = controller.enginePowerToHorsePower(vehicle);
+                                                                            if (horsePower == 0) {
+                                                                                JOptionPane.showMessageDialog(null, "Le véhicule sélectionné n'a pas de puissance enregistrée");
+                                                                            } else {
+                                                                                JOptionPane.showMessageDialog(null, Math.round(horsePower * 100.0) / 100.0 + " cv", "Convertisseur KW", JOptionPane.INFORMATION_MESSAGE);
+                                                                            }
                                                                         }
                                                                     }
                                                                 }

@@ -132,7 +132,7 @@ public class PanelVehicleFeatures extends JPanel {
             energiesList.setSelectedIndex(vehicle.getIndiceEnergy(vehicle.getEngineEnergy()));
             inputEngineCylinder.setText(vehicle.getEngineCylinder() == 0 ? "" : Integer.toString(vehicle.getEngineCylinder()));
             inputEnginePower.setText(vehicle.getEnginePower() == 0 ? "" : Integer.toString(vehicle.getEnginePower()));
-            inputBuyPrice.setText(vehicle.getBuyPrice() == 0 ? "" : Double.toString(vehicle.getBuyPrice()) );
+            inputBuyPrice.setText(vehicle.getBuyPrice() == 0 ? "" : Double.toString(vehicle.getBuyPrice()));
             inputNotes.setText(vehicle.getNotes());
             inputChassisNumber.setEditable(false);
         } else {

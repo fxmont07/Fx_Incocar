@@ -98,6 +98,9 @@ public class Business {
     public void addBill(Bill bill) throws DataAccessException {
         dao.addBill(bill);
     }
+    public void addLocality(Locality locality) throws DataAccessException {
+        dao.addLocality(locality);
+    }
 
     // Update
     public void updateSupplier(Supplier supplier) throws DataAccessException {
@@ -116,6 +119,10 @@ public class Business {
     }
     public void deleteVehicle(String vehicleChassis) throws DataAccessException {
         dao.deleteVehicle(vehicleChassis);
+    }
+
+    public void deleteLocality(String name, String code) throws DataAccessException {
+        dao.deleteLocality(name, code);
     }
 
 

@@ -7,6 +7,7 @@ import tool.Tool;
 import javax.swing.*;
 
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,7 @@ public class PanelVehicle extends JPanel {
     public PanelVehicle(Controller controller, JFrame mainRef, ArrayList<Vehicle> vehicles) {
         ButtonListener bListener;
         JTable table;
+        RowSorter<VehicleTable> sorter;
         TableColumn column;
         JScrollPane scrollPane;
 
@@ -63,9 +65,11 @@ public class PanelVehicle extends JPanel {
             vehicleTable = new VehicleTable(vehicles);
         }
         table = new JTable(vehicleTable);
-
+        sorter = new TableRowSorter<>(vehicleTable);
+        table.setRowSorter(sorter);
         column = table.getColumnModel().getColumn(1);
         column.setPreferredWidth(150);
+
 
         Tool.setDisignColor(table);
         scrollPane = new JScrollPane(table);
@@ -136,7 +140,6 @@ public class PanelVehicle extends JPanel {
                                     removeVehicle(vehicle);
                                 }
                             }
-
                         }
                     }
                 }

@@ -24,7 +24,7 @@ public class FormModel extends JFrame {
     // Contructors
     public FormModel(Controller controller) {
         // Title
-        super("Ajouter Modèle");
+        super("Gestion Modèle");
 
         ButtonListener bListener;
 

@@ -86,7 +86,7 @@ public class FormVehicle extends JFrame {
         container.add(new JLabel("Les champs qui disposent d'une * sont obligatoires"));
         container.add(panelDoc);
         container.add(panelPub);
-        panelPub.setVisible(vehicle == null ? false : true);
+        panelPub.setVisible(vehicle == null);
 
         container.add(buttons);
         setLayout(new FlowLayout());
@@ -180,7 +180,6 @@ public class FormVehicle extends JFrame {
                                     JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
-
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                         }

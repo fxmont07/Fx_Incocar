@@ -86,6 +86,9 @@ public class Controller {
     public void addBill(Bill bill) throws DataAccessException {
         business.addBill(bill);
     }
+    public void addLocality(Locality locality) throws DataAccessException {
+        business.addLocality(locality);
+    }
 
 
     // Updates
@@ -105,6 +108,9 @@ public class Controller {
     }
     public void deleteVehicle(String vehicleChassis) throws DataAccessException {
         business.deleteVehicle(vehicleChassis);
+    }
+    public void deleteLocality(String name, String code) throws DataAccessException {
+        business.deleteLocality(name, code);
     }
 
 

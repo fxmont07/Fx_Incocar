@@ -95,7 +95,6 @@ public class FormSell extends JFrame {
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
-
                     }
                 }
             } else {

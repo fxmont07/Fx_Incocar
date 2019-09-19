@@ -37,6 +37,7 @@ public interface DAO {
     void addModel(String manufacturerName, String newModel) throws DataAccessException;
     void addVehicle(Vehicle vehicle) throws DataAccessException;
     void addBill(Bill bill) throws DataAccessException;
+    void addLocality(Locality locality) throws DataAccessException;
 
     // Update
     void updateSupplier(Supplier supplier) throws DataAccessException;
@@ -46,4 +47,5 @@ public interface DAO {
     void deleteSupplier(Supplier supplier) throws DataAccessException;
     void deleteModel(String modelName) throws DataAccessException;
     void deleteVehicle(String vehicleChassis) throws DataAccessException;
+    void deleteLocality(String name, String code) throws DataAccessException;
 }
